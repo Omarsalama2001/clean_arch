@@ -5,7 +5,7 @@ import 'package:flutter_clean_arch/features/posts/doamin/repositories/posts_repo
 
 class AddPostUsecase {
   final PostRepository repository;
-  AddPostUsecase(this.repository);
+  AddPostUsecase({required this.repository});
 
   Future<Either<Failure, Unit>> call(Post post) async {
     return await repository.addPost(post);
