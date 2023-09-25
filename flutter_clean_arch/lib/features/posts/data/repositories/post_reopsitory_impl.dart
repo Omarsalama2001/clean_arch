@@ -13,7 +13,7 @@ typedef DeleteOrUpdateOrAddPost = Future<Unit> Function(); // to make an alies f
 class PostRepositoryImpl implements PostRepository {
   final PostRemoteDateSource remoteDateSource;
   final PostLocalDateSource localDateSource;
-  final NetworkInfoImpl networkInfo;
+  final NetworkInfo networkInfo;
 
   PostRepositoryImpl({required this.remoteDateSource, required this.localDateSource, required this.networkInfo});
 
@@ -40,7 +40,7 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<Either<Failure, Unit>> addPost(Post post) async {
     // this from entity so, we need to replace it to PostModel
-    final PostModel postModel = PostModel(id: post.id, body: post.body, title: post.title);
+    final PostModel postModel = PostModel(body: post.body, title: post.title);
 
     return _getMessage(() => remoteDateSource.addPost(postModel));
   }

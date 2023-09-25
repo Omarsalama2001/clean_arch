@@ -6,7 +6,7 @@ import 'package:flutter_clean_arch/features/posts/data/models/post_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class PostLocalDateSource {
-  // this is and optional abs class because you may need to do the calling API in diff ways (dio ,http ,.........)
+  // this is and optional abs class because you may need to do the calling API in diff ways (shP ,hive , sql.........)
   Future<List<PostModel>> getCachedPosts();
   Future<Unit> cachePosts(List<PostModel> postModels);
 }
@@ -30,7 +30,7 @@ class PostLocalDataSourceImpl implements PostLocalDateSource {
     final jsonString = sharedPreferences.getString(CACHED_POSTS);
     if (jsonString != null) {
       List decodeJsonData = jsonDecode(jsonString);
-      List<PostModel> jsonToPostModels = decodeJsonData.map<PostModel>((jsonPostModel) => PostModel.fromJson(jsonPostModel)).toList();
+      List<PostModel> jsonToPostModels = decodeJsonData.map<PostModel>((jsonPostModel) => PostModel.fromJson(jsonPostModel)).toList(); // problem here
       return Future.value(jsonToPostModels);
     } else {
       throw EmptyCacheException();

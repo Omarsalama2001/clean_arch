@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_clean_arch/core/error/failures.dart';
 import 'package:flutter_clean_arch/core/strings/faliures.dart';
 import 'package:flutter_clean_arch/core/strings/messages.dart';
@@ -14,7 +13,7 @@ part 'add_update_delete_post_event.dart';
 part 'add_update_delete_post_state.dart';
 
 class AddUpdateDeletePostBloc extends Bloc<AddUpdateDeletePostEvent, AddUpdateDeletePostState> {
-  AddPostUsecase addPost;
+  AddPostUsecase addPost; // this bloc is injected with those classes , and it cant complete its work without them (Dependency) so, here we talking about DI
   DeletePostUsecase deletePost;
   UpdatPostUsecase updatePost;
 
@@ -30,6 +29,7 @@ class AddUpdateDeletePostBloc extends Bloc<AddUpdateDeletePostEvent, AddUpdateDe
         emit(_mapFailureOrUnitToState(failureOrUnit, DELETE_SUCCESS_MESSAGE));
       } else if (event is UpdatePostEvent) {
         final failureOrUnit = await updatePost(event.post);
+        emit(_mapFailureOrUnitToState(failureOrUnit, UPDATE_SUCCESS_MESSAGE));
       }
     });
   }

@@ -1,7 +1,7 @@
 import 'package:flutter_clean_arch/features/posts/doamin/enttities/post.dart';
 
 class PostModel extends Post {
-  const PostModel({required int id, required String body, required String title}) : super(id: id, body: body, title: title);
+  const PostModel({int? id, required String body, required String title}) : super(id: id, body: body, title: title);
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     // this is to make it readalbe and to use the pram one in
@@ -9,6 +9,6 @@ class PostModel extends Post {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, body: body, title: title};
+    return {'id': id, 'body': body, 'title': title};
   }
 }

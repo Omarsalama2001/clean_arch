@@ -12,11 +12,13 @@ part 'posts_state.dart';
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final GetAllPostsUsecase getAllPosts;
 
-  PostsBloc(this.getAllPosts) : super(PostsInitial()) {
+  PostsBloc({required this.getAllPosts}) : super(PostsInitial()) {
     on<PostsEvent>((event, emit) async {
       if (event is GetAllPostsEvent) {
         emit(LoadignPostsState());
+
         final posts = await getAllPosts();
+
         emit(_mapFailureOrPostsToState(posts));
       } else if (event is RefreshPostsEvent) {
         emit(LoadignPostsState());

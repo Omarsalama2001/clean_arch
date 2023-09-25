@@ -5,7 +5,7 @@ import 'package:flutter_clean_arch/features/posts/doamin/repositories/posts_repo
 class DeletePostUsecase {
   PostRepository repository;
 
-  DeletePostUsecase(this.repository);
+  DeletePostUsecase({required this.repository});
 
   Future<Either<Failure, Unit>> call(int postId) async {
     return await repository.deletePost(postId);
