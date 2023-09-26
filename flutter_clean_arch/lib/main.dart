@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_arch/bloc_observer.dart';
 import 'package:flutter_clean_arch/core/app_theme.dart';
+import 'package:flutter_clean_arch/core/network/connection/bloc/connection_bloc.dart';
 import 'package:flutter_clean_arch/features/posts/presentation/bloc/add_update_delete_post/add_update_delete_post_bloc.dart';
 import 'package:flutter_clean_arch/features/posts/presentation/bloc/posts/posts_bloc.dart';
 import 'package:flutter_clean_arch/features/posts/presentation/pages/posts_page.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => di.sl<PostsBloc>()..add(GetAllPostsEvent()), // .. is a cascade operator , you can use it to call multiple functions or doing actions after create an object like this here
         ),
-        BlocProvider(create: (context) => di.sl<AddUpdateDeletePostBloc>())
+        BlocProvider(create: (context) => di.sl<AddUpdateDeletePostBloc>()),
+        BlocProvider(create: (context) => ConnectionBloc())
       ],
       child: MaterialApp(debugShowCheckedModeBanner: false, title: 'posts App', theme: appTheme, home: const PostsPage()),
     );

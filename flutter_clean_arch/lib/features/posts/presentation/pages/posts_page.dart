@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_arch/core/network/connection/bloc/connection_bloc.dart';
+import 'package:flutter_clean_arch/core/widgets/snack_bar.dart';
 import 'package:flutter_clean_arch/features/posts/presentation/bloc/posts/posts_bloc.dart';
 import 'package:flutter_clean_arch/core/widgets/loading_widget.dart';
 import 'package:flutter_clean_arch/features/posts/presentation/pages/post_add_update.dart';
@@ -21,19 +23,28 @@ class PostsPage extends StatelessWidget {
 
 AppBar _buildAppBar() => AppBar(title: const Text("Posts"));
 
-Widget _buildBody() => BlocBuilder<PostsBloc, PostsState>(builder: (context, state) {
-      if (state is LoadignPostsState) {
-        return const LoadingWidget();
-      } else if (state is LoadedPostsState) {
-        return PostsListWidget(
-          posts: state.posts,
-        );
-      } else if (state is ErrorPostsState) {
-        return MessageWidget(message: state.message);
-      } else {
-        return const LoadingWidget();
-      }
-    });
+Widget _buildBody() => BlocListener<ConnectionBloc, ConnectionStates>(
+      listener: (context, state) {
+        if (state is ConnectedState) {
+          SnackBarMessage.showSnackBar(SnackBarTypes.SUCCESS, state.message, context);
+        } else if (state is NotConnectedState) {
+          SnackBarMessage.showSnackBar(SnackBarTypes.ERORR, state.message, context);
+        }
+      },
+      child: BlocBuilder<PostsBloc, PostsState>(builder: (context, state) {
+        if (state is LoadignPostsState) {
+          return const LoadingWidget();
+        } else if (state is LoadedPostsState) {
+          return PostsListWidget(
+            posts: state.posts,
+          );
+        } else if (state is ErrorPostsState) {
+          return MessageWidget(message: state.message);
+        } else {
+          return const LoadingWidget();
+        }
+      }),
+    );
 FloatingActionButton _floatingActionButton(BuildContext context) => FloatingActionButton(
       onPressed: () {
         Navigator.push(
